@@ -6,16 +6,17 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
+            "name": "Launch Main",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "Main",
+            "projectName": "comic-man_beb1d401"
         },
         {
             "type": "java",
-            "name": "App",
+            "name": "Launch Main",
             "request": "launch",
-            "vmArgs": "--module-path ./javafx-sdk-20.0.2/lib --add-modules javafx.controls,javafx.fxml", 
-            "mainClass": "App",
+            "vmArgs": "--module-path C:\\Users\\deanp\\Documents\\GitHub\\ComicMan\\comic-man\\javafx-sdk-20.0.2\\lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "Main",
             "projectName": "comic-man_beb1d401"
         }
     ]
