@@ -32,16 +32,20 @@ public class Main extends Application {
 		try {
 			instance.setup();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/InitialView.fxml"));
-			
+	
 			// Customize controller instance
 			Callback<Class<?>, Object> controllerFactory = param -> {
 				return new InitialController(primaryStage, instance);
 			};
 			
+			
+
 			loader.setControllerFactory(controllerFactory);
 			VBox root = loader.load();
 
-			InitialController initialController = loader.getController();
+
+			InitialController initialController = new InitialController(primaryStage, instance);
+			initialController = loader.getController();
 			initialController.showStage(root);
 		} catch (IOException | SQLException | RuntimeException e) {
 			Scene scene = new Scene(new Label(e.getMessage()), 200, 100);
@@ -55,3 +59,4 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+

@@ -12,12 +12,12 @@ public class Instance {
     
     public Instance() {
         comicDAO = new DaoImpl();
-        characterDAO = new DaoImpl();
+        // characterDAO = new DaoImpl();
     }
 
     public void setup() throws SQLException {
-        comicDAO.setup();
-        characterDAO.setup();
+        // comicDAO.setup();
+        // characterDAO.setup();
     }
 
     public Dao getComicDao()  {

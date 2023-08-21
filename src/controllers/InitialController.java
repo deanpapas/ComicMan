@@ -1,27 +1,32 @@
 package controllers;
 
-import model.Instance;
-
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Instance;
 
 public class InitialController {
 
-    private Stage stage;
     private Instance instance;
+    private Stage stage;
+    
 
+    @FXML
+    private Button testbtn;
 
     public InitialController(Stage stage, Instance instance) {
         this.stage = stage;
         this.instance = instance;
     }
 
-
     @FXML
     public void initialize() {
-        
+
+        testbtn.setOnAction(e -> {
+            System.out.println("Test Button Clicked");
+        });
     }
 
     public void showStage(Pane root) {
