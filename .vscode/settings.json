@@ -13,5 +13,10 @@
   "java.project.sourcePaths": [
     "src/resources/views",
     "src"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#142855",
+    "titleBar.activeBackground": "#142855",
+    "titleBar.activeForeground": "#F8FAFF"
+  }
 }

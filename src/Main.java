@@ -31,22 +31,20 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			instance.setup();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/InitialView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Initial/InitialView.fxml"));
 	
 			// Customize controller instance
 			Callback<Class<?>, Object> controllerFactory = param -> {
 				return new InitialController(primaryStage, instance);
 			};
-			
-			
 
 			loader.setControllerFactory(controllerFactory);
 			VBox root = loader.load();
 
 
-			InitialController initialController = new InitialController(primaryStage, instance);
-			initialController = loader.getController();
-			initialController.showStage(root);
+			InitialController controller = new InitialController(primaryStage, instance);
+			controller = loader.getController();
+			controller.showStage(root);
 		} catch (IOException | SQLException | RuntimeException e) {
 			Scene scene = new Scene(new Label(e.getMessage()), 200, 100);
 			primaryStage.setTitle("Error");

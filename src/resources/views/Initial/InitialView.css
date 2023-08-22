@@ -1,0 +1,15 @@
+.startbtn {
+    -fx-background-color: #000000;
+    -fx-text-fill: #f7bf50;
+    -fx-border-color: #f7bf50;
+    -fx-border-width: 2px;
+    -fx-font-size: 20px;
+}
+
+.startbtn:hover {
+    -fx-background-color: #f7bf50;
+    -fx-text-fill: #000000;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-font-size: 20px;
+}
