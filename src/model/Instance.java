@@ -11,13 +11,13 @@ public class Instance {
     public DaoImpl characterDAO;
     
     public Instance() {
-        comicDAO = new DaoImpl();
-        // characterDAO = new DaoImpl();
+        comicDAO = new DaoImpl("comicbook");
+        characterDAO = new DaoImpl("character");
     }
 
     public void setup() throws SQLException {
-        // comicDAO.setup();
-        // characterDAO.setup();
+        comicDAO.setup();
+        characterDAO.setup();
     }
 
     public Dao getComicDao()  {

@@ -10,36 +10,41 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DaoImpl implements Dao {
+	private String type;
 	private final String COMICBOOK_TABLE_NAME = "comicbooks";
 	private final String CHARACTER_TABLE_NAME = "characters";
 
-	public DaoImpl() {
+	public DaoImpl(String type) {
+		this.type = type;
 	}
 
 	// Create Database
 	@Override
 	public void setup() throws SQLException {
-		try (Connection connection = Database.getConnection(COMICBOOK_TABLE_NAME);
-				Statement stmt = connection.createStatement();) {
-			String sql = "CREATE TABLE IF NOT EXISTS " + COMICBOOK_TABLE_NAME
-					+ " (title VARCHAR(20) NOT NULL," + "authors VARCHAR(50) NOT NULL,"
-					+ "publisher VARCHAR(20) NOT NULL," + "genres VARCHAR(50),"
-					+ "description VARCHAR(250)," + "cover VARCHAR(20),"
-					+ "releaseDate VARCHAR(10) NOT NULL," + "characters VARCHAR(50),"
-					+ "PRIMARY KEY (title))";
-			stmt.executeUpdate(sql);
-		}
-		try (Connection connection = Database.getConnection(CHARACTER_TABLE_NAME);
-				Statement stmt = connection.createStatement();) {
-			String sql = "CREATE TABLE IF NOT EXISTS " + CHARACTER_TABLE_NAME
-					+ " (name VARCHAR(20) NOT NULL," + "abilities VARCHAR(100),"
-					+ "universe VARCHAR(20)," + "firsAppearance VARCHAR(20) NOT NULL,"
-					+ "description VARCHAR(250)," + "image VARCHAR(20),"
-					+ "identity VARCHAR(20)," + "villains VARCHAR(100),"
-					+ "allies VARCHAR(100)," + "teams VARCHAR(100),"
-					+ "nemesis VARCHAR(20)," + "category VARCHAR(10)"
-					+ "PRIMARY KEY (name))";
-			stmt.executeUpdate(sql);
+		if (type.equals("comicbook")) {
+			try (Connection connection = Database.getConnection(COMICBOOK_TABLE_NAME);
+					Statement stmt = connection.createStatement();) {
+				String sql = "CREATE TABLE IF NOT EXISTS " + COMICBOOK_TABLE_NAME
+						+ " (title VARCHAR(20) NOT NULL," + "authors VARCHAR(50) NOT NULL,"
+						+ "publisher VARCHAR(20) NOT NULL," + "genres VARCHAR(50),"
+						+ "description VARCHAR(250)," + "cover VARCHAR(20),"
+						+ "releaseDate VARCHAR(10) NOT NULL," + "characters VARCHAR(50),"
+						+ "PRIMARY KEY (title))";
+				stmt.executeUpdate(sql);
+			}
+		} else if (type.equals("character")) {
+			try (Connection connection = Database.getConnection(CHARACTER_TABLE_NAME);
+					Statement stmt = connection.createStatement();) {
+				String sql = "CREATE TABLE IF NOT EXISTS " + CHARACTER_TABLE_NAME
+						+ " (name VARCHAR(20) NOT NULL," + "abilities VARCHAR(100),"
+						+ "universe VARCHAR(20)," + "firsAppearance VARCHAR(20) NOT NULL,"
+						+ "description VARCHAR(250)," + "image VARCHAR(20),"
+						+ "identity VARCHAR(20)," + "villains VARCHAR(100),"
+						+ "allies VARCHAR(100)," + "teams VARCHAR(100),"
+						+ "nemesis VARCHAR(20)," + "category VARCHAR(10),"
+						+ "PRIMARY KEY (name))";
+				stmt.executeUpdate(sql);
+			}
 		}
 
 	}
@@ -48,11 +53,11 @@ public class DaoImpl implements Dao {
 	@Override
 	public Comicbook getComicbook(String searchType, String searchValue) throws SQLException {
 		String sql = "SELECT * FROM " + COMICBOOK_TABLE_NAME + " WHERE ? = ?";
-		try (Connection connection = Database.getConnection(COMICBOOK_TABLE_NAME); 
+		try (Connection connection = Database.getConnection(COMICBOOK_TABLE_NAME);
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			stmt.setString(1, searchType);
 			stmt.setString(2, searchValue);
-			
+
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
 					String title = rs.getString("title");
@@ -63,17 +68,18 @@ public class DaoImpl implements Dao {
 					String cover = rs.getString("cover");
 					String releaseDate = rs.getString("releaseDate");
 					String[] characters = (rs.getString("characters")).split(",");
-					
+
 					Character[] characterArray = new Character[characters.length];
 					for (int i = 0; i < characters.length; i++) {
 						characterArray[i] = getCharacter("name", characters[i]);
 					}
 
-					return new Comicbook(title, authors, publisher, genres, description, cover, releaseDate, characterArray);
+					return new Comicbook(title, authors, publisher, genres, description, cover, releaseDate,
+							characterArray);
 
 				}
 				return null;
-			} 
+			}
 		}
 	}
 
@@ -104,31 +110,38 @@ public class DaoImpl implements Dao {
 					CharacterFactory characterFactory = new CharacterFactory();
 					return characterFactory.newCharacter(category, name, abilities, universe, firstAppearance,
 							description, image, identity, villains, allies, teams, nemesis);
-					
+
 				}
 				return null;
 			}
 		}
 	}
 
-	// // Create User
-	// @Override
-	// public User createUser(String username, String password, String firstname,
-	// String lastname, String profilepic)
-	// throws SQLException {
-	// String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?)";
-	// try (Connection connection = Database.getConnection();
-	// PreparedStatement stmt = connection.prepareStatement(sql);) {
-	// stmt.setString(1, username);
-	// stmt.setString(2, password);
-	// stmt.setString(3, firstname);
-	// stmt.setString(4, lastname);
-	// stmt.setString(5, profilepic);
+	// Create User
+	@Override
+	public Boolean setCharacter(String name, String type)
+			throws SQLException {
+		String sql = "INSERT INTO " + CHARACTER_TABLE_NAME + " VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?)";
+		try (Connection connection = Database.getConnection(CHARACTER_TABLE_NAME);
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
+			stmt.setString(1, name);
+			stmt.setString(2, "abilities");
+			stmt.setString(3, "universe");
+			stmt.setString(4, "firstAppearance");
+			stmt.setString(5, "description");
+			stmt.setString(6, "image");
+			stmt.setString(7, "identity");
+			stmt.setString(8, "villains");
+			stmt.setString(9, "allies");
+			stmt.setString(10, "teams");
+			stmt.setString(11, "nemesis");
+			stmt.setString(12, type);
 
-	// stmt.executeUpdate();
-	// return new User(username, password, firstname, lastname, profilepic);
-	// }
-	// }
+
+			stmt.executeUpdate();
+			return true;
+		}
+	}
 
 	// // Edit User
 	// @Override

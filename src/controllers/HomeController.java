@@ -11,8 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import model.Hero;
 import model.Instance;
+import model.Character;
 
 public class HomeController {
 
@@ -53,6 +54,11 @@ public class HomeController {
                 });
 
                 objectDisplayPane.getChildren().add(loader.load());
+
+                //instance.characterDAO.setCharacter("batman","hero");
+                System.out.println("Character added");
+                Character character = instance.characterDAO.getCharacter("name", "batman");
+                System.out.println(character.getName());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
