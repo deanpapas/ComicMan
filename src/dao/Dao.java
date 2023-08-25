@@ -7,7 +7,8 @@ import model.Comicbook;
 //Data Access Object
 public interface Dao {
 	void setup() throws SQLException;
+	Comicbook[] getComicbooks() throws SQLException;
+	Character[] getCharacters() throws SQLException;
 	Comicbook getComicbook(String searchType, String searchValue) throws SQLException;
 	Character getCharacter(String searchType, String searchValue) throws SQLException;
-	Boolean setCharacter(String name, String type) throws SQLException;
 }

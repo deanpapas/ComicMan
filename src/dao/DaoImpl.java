@@ -2,12 +2,15 @@ package dao;
 
 import model.Comicbook;
 import factories.CharacterFactory;
+import javafx.scene.Cursor;
 import model.Character;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.sqlite.SQLiteDataSource;
 
 public class DaoImpl implements Dao {
 	private String type;
@@ -27,7 +30,7 @@ public class DaoImpl implements Dao {
 				String sql = "CREATE TABLE IF NOT EXISTS " + COMICBOOK_TABLE_NAME
 						+ " (title VARCHAR(20) NOT NULL," + "authors VARCHAR(50) NOT NULL,"
 						+ "publisher VARCHAR(20) NOT NULL,"
-						 + "cover VARCHAR(20),"
+						+ "cover VARCHAR(20),"
 						+ "releaseDate VARCHAR(10) NOT NULL," + "characters VARCHAR(50),"
 						+ "PRIMARY KEY (title))";
 				stmt.executeUpdate(sql);
@@ -70,7 +73,7 @@ public class DaoImpl implements Dao {
 					for (int i = 0; i < characters.length; i++) {
 						characterArray[i] = getCharacter("name", characters[i]);
 					}
-
+					
 					return new Comicbook(title, authors, publisher, cover, releaseDate,
 							characterArray);
 
@@ -90,12 +93,10 @@ public class DaoImpl implements Dao {
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
-								System.out.println("Getting Character");
 					String name = rs.getString("name");
 					String[] abilities = (rs.getString("abilities")).split(",");
 					String universe = rs.getString("universe");
 					String firstAppearance = rs.getString("firstAppearance");
-					String description = rs.getString("description");
 					String image = rs.getString("image");
 					String identity = rs.getString("identity");
 					String[] villains = (rs.getString("villains")).split(",");
@@ -105,8 +106,9 @@ public class DaoImpl implements Dao {
 					String category = rs.getString("category");
 
 					CharacterFactory characterFactory = new CharacterFactory();
-					return characterFactory.newCharacter(category, name, abilities, universe, firstAppearance,
-							description, image, identity, villains, allies, teams, nemesis);
+					Character newChar = characterFactory.newCharacter(name, abilities, universe, firstAppearance,
+							 image, category, identity, villains, allies, teams, nemesis);
+					return newChar;
 
 				}
 				return null;
@@ -114,47 +116,73 @@ public class DaoImpl implements Dao {
 		}
 	}
 
-	// Create User
 	@Override
-	public Boolean setCharacter(String name, String type)
-			throws SQLException {
-		String sql = "INSERT INTO " + CHARACTER_TABLE_NAME + " VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?)";
-		try (Connection connection = Database.getConnection(CHARACTER_TABLE_NAME);
+	public Comicbook[] getComicbooks() {
+		String sql = "SELECT * FROM " + COMICBOOK_TABLE_NAME;
+		try (Connection connection = Database.getConnection(COMICBOOK_TABLE_NAME);
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
-			stmt.setString(1, name);
-			stmt.setString(2, "abilities");
-			stmt.setString(3, "universe");
-			stmt.setString(4, "firstAppearance");
-			stmt.setString(5, "description");
-			stmt.setString(6, "image");
-			stmt.setString(7, "identity");
-			stmt.setString(8, "villains");
-			stmt.setString(9, "allies");
-			stmt.setString(10, "teams");
-			stmt.setString(11, "nemesis");
-			stmt.setString(12, type);
+			try (ResultSet rs = stmt.executeQuery()) {
+				Comicbook[] comicbookArray = new Comicbook[17];
+				int i = 0;
+				while (rs.next()) {
+					String title = rs.getString("title");
+					String[] authors = (rs.getString("authors")).split(",");
+					String publisher = rs.getString("publisher");
+					String cover = rs.getString("cover");
+					String releaseDate = rs.getString("releaseDate");
+					String[] characters = (rs.getString("characters")).split(",");
 
+					Character[] characterArray = new Character[characters.length];
+					for (int j = 0; j < characters.length; j++) {
+						characterArray[j] = getCharacter("name", characters[j]);
+					}
 
-			stmt.executeUpdate();
-			return true;
+					comicbookArray[i] = new Comicbook(title, authors, publisher, cover, releaseDate,
+							characterArray);
+					i++;
+				}
+				return comicbookArray;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
+
 	}
 
-	// // Edit User
-	// @Override
-	// public void editUser(String username, String firstname, String lastname,
-	// String profilepic) throws SQLException {
-	// String sql = "UPDATE " + TABLE_NAME + " SET firstname = ?, lastname = ?,
-	// profilepic = ? WHERE username = ?";
-	// try (Connection connection = Database.getConnection();
-	// PreparedStatement stmt = connection.prepareStatement(sql);) {
-	// stmt.setString(1, firstname);
-	// stmt.setString(2, lastname);
-	// stmt.setString(3, profilepic);
-	// stmt.setString(4, username);
+	@Override
+	public Character[] getCharacters(){
+		String sql = "SELECT * FROM " + CHARACTER_TABLE_NAME;
+		try (Connection connection = Database.getConnection(CHARACTER_TABLE_NAME);
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
+			try (ResultSet rs = stmt.executeQuery()) {
+				Character[] characterArray = new Character[17];
+				int i = 0;
+				while (rs.next()) {
+					String name = rs.getString("name");
+					String[] abilities = (rs.getString("abilities")).split(",");
+					String universe = rs.getString("universe");
+					String firstAppearance = rs.getString("firstAppearance");
+					String image = rs.getString("image");
+					String identity = rs.getString("identity");
+					String[] villains = (rs.getString("villains")).split(",");
+					String[] allies = (rs.getString("allies")).split(",");
+					String[] teams = (rs.getString("teams")).split(",");
+					String nemesis = rs.getString("nemesis");
+					String category = rs.getString("category");
 
-	// stmt.executeUpdate();
-	// }
-	// }
+					CharacterFactory characterFactory = new CharacterFactory();
+					Character newChar = characterFactory.newCharacter(name, abilities, universe, firstAppearance,
+							 image, category, identity, villains, allies, teams, nemesis);
+					characterArray[i] = newChar;
+					i++;
+				}
+				return characterArray;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

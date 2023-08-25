@@ -8,17 +8,21 @@ public class Hero extends Character {
     private String[] teams;
 
     public Hero(String name, String[] abilities, String universe,
-            String firstAppearance, String description, String image,
+            String firstAppearance, String image, String type,
             String identity, String[] villains, String[] allies,
             String[] teams) {
 
-        super(name, abilities, universe, firstAppearance, description, image);
+        super(name, abilities, universe, firstAppearance, image, type);
         this.identity = identity;
         this.villains = villains;
         this.allies = allies;
         this.teams = teams;
     }
 
+    public String getAffinity() {
+        return "Hero";
+    }
+    
     public String getIdentity() {
         return identity;
     }
@@ -51,6 +55,8 @@ public class Hero extends Character {
         this.teams = teams;
     }
 
-
+    public String getCatchPhrase() {
+        return "Hello, I'm the Hero they call " + getName() + ".";
+    }
 
 }

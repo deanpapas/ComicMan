@@ -69,8 +69,12 @@ public class Comicbook {
         this.cover = cover;
     }
 
-    public Character[] getCharacters() {
-        return characters;
+    public String[] getCharacters() {
+        String[] characterNames = new String[characters.length];
+        for (int i = 0; i < characters.length; i++) {
+            characterNames[i] = characters[i].getName();
+        }
+        return characterNames;
     }
 
     public void setCharacters(Character[] characters) {

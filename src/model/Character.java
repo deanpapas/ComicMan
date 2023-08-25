@@ -6,16 +6,18 @@ public abstract class Character {
     private String[] abilities;
     private String universe;
     private String firstAppearance;
-    private String description;
     private String image;
-    
-    public Character(String name, String[] abilities, String universe, String firstAppearance, String description,
-            String image) {
+    private String affinity;
+
+    public Character(String name, String[] abilities, String universe, String firstAppearance,
+            String image, String affinity) {
         this.name = name;
+        this.abilities = abilities;
         this.universe = universe;
         this.firstAppearance = firstAppearance;
-        this.description = description;
         this.image = image;
+        this.affinity = affinity;
+
     }
 
     public String getName() {
@@ -50,20 +52,24 @@ public abstract class Character {
         this.firstAppearance = firstAppearance;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getAffinity() {
+        return affinity;
+    }
+
+    public void setAffinity(String affinity) {
+        this.affinity = affinity;
+    }
+
+    public String getCatchPhrase() {
+        return "Hello, I'm " + name + ".";
     }
 
 }

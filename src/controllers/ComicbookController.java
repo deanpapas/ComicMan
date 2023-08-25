@@ -1,9 +1,11 @@
 package controllers;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,12 +24,6 @@ public class ComicbookController {
     private Text comicCharacterTxt;
 
     @FXML
-    private TextArea comicDescriptionTxtField;
-
-    @FXML
-    private Text comicGenreTxt;
-
-    @FXML
     private Text comicPublisherTxt;
 
     @FXML
@@ -38,7 +34,6 @@ public class ComicbookController {
 
     @FXML
     private ImageView coverImageView;
-    
 
     private Stage stage;
 
@@ -52,10 +47,19 @@ public class ComicbookController {
         this.comicbook = comicbook;
     }
 
-    public void initialize() {
-        File file = new File(comicbook.getCover());
-        Image image = new Image(file.toURI().toString());
-        coverImageView.setImage(image);
+    public void initialize() throws SQLException {
+        if (comicbook != null) {
+            File file = new File(comicbook.getCover());
+            Image image = new Image(file.toURI().toString());
+            coverImageView.setImage(image);
+
+            comicTitleTxt.setText(comicbook.getTitle());
+            comicAuthorTxt.setText(String.join(",", comicbook.getAuthors()));
+            comicPublisherTxt.setText(comicbook.getPublisher());
+            comicReleaseDateTxt.setText(comicbook.getReleaseDate());
+            comicCharacterTxt.setText(String.join(",",comicbook.getCharacters()));
+        }
+
     }
 
     public void showStage(AnchorPane root) {
