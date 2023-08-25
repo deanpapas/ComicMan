@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import model.Hero;
 import model.Instance;
 import model.Character;
+import model.Comicbook;
 
 public class HomeController {
 
@@ -44,21 +46,22 @@ public class HomeController {
         this.instance = instance;
     }
 
-    public void initialize() throws IOException {
+    public void initialize() throws IOException, SQLException {
 
+        Comicbook comicbook1 = instance.comicbookDAO.getComicbook("title", "Detective Comics #27");
+        System.out.println(comicbook1.getTitle() + "----------------------------------------------------------");
         testbtn.setOnAction(e -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comicbook/ComicbookView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Comicbook/ComicbookView.fxml"));
                 loader.setControllerFactory(param -> {
-                    return new ComicbookController(stage, instance);
+                    return new ComicbookController(stage, instance, comicbook1);
                 });
 
                 objectDisplayPane.getChildren().add(loader.load());
 
-                //instance.characterDAO.setCharacter("batman","hero");
-                System.out.println("Character added");
-                Character character = instance.characterDAO.getCharacter("name", "batman");
+                Character character = instance.characterDAO.getCharacter("name", "Batman");
                 System.out.println(character.getName());
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

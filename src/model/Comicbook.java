@@ -11,16 +11,14 @@ public class Comicbook {
     private String releaseDate;
     private Character[] characters;
 
-    public Comicbook(String title, String[] authors, String publisher, String[] genres, String description,
-            String cover, String releaseDate,Character[] characters) {
+    public Comicbook(String title, String[] authors, String publisher,
+            String cover, String releaseDate, Character[] characters) {
         this.title = title;
         this.authors = authors;
         this.publisher = publisher;
-        this.genres = genres;
-        this.description = description;
         this.cover = cover;
-        this.characters = characters;
         this.releaseDate = releaseDate;
+        this.characters = characters;
     }
 
     public String getTitle() {

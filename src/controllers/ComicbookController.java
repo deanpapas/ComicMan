@@ -1,11 +1,16 @@
 package controllers;
 
+import java.io.File;
+
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Comicbook;
 import model.Instance;
 
 public class ComicbookController {
@@ -31,13 +36,26 @@ public class ComicbookController {
     @FXML
     private Text comicTitleTxt;
 
+    @FXML
+    private ImageView coverImageView;
+    
+
     private Stage stage;
 
     private Instance instance;
 
-    public ComicbookController(Stage stage, Instance instance) {
+    private Comicbook comicbook;
+
+    public ComicbookController(Stage stage, Instance instance, Comicbook comicbook) {
         this.stage = stage;
         this.instance = instance;
+        this.comicbook = comicbook;
+    }
+
+    public void initialize() {
+        File file = new File(comicbook.getCover());
+        Image image = new Image(file.toURI().toString());
+        coverImageView.setImage(image);
     }
 
     public void showStage(AnchorPane root) {

@@ -31,7 +31,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			instance.setup();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Initial/InitialView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Initial/InitialView.fxml"));
 	
 			// Customize controller instance
 			Callback<Class<?>, Object> controllerFactory = param -> {

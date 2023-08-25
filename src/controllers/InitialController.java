@@ -26,7 +26,7 @@ public class InitialController {
 
         startbtn.setOnAction(e -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/HomeView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home/HomeView.fxml"));
                 loader.setControllerFactory(param -> {
                     return new HomeController(stage, instance);
                 });

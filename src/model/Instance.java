@@ -7,21 +7,21 @@ import dao.DaoImpl;
 
 public class Instance {
 
-    public DaoImpl comicDAO;
+    public DaoImpl comicbookDAO;
     public DaoImpl characterDAO;
     
     public Instance() {
-        comicDAO = new DaoImpl("comicbook");
+        comicbookDAO = new DaoImpl("comicbook");
         characterDAO = new DaoImpl("character");
     }
 
     public void setup() throws SQLException {
-        comicDAO.setup();
+        comicbookDAO.setup();
         characterDAO.setup();
     }
 
     public Dao getComicDao()  {
-        return comicDAO;
+        return comicbookDAO;
     }
 
     public Dao getCharacterDao()  {
@@ -29,7 +29,7 @@ public class Instance {
     }
 
     public Comicbook getComicbook(String searchType, String searchValue) throws SQLException {
-        return comicDAO.getComicbook(searchType, searchValue);
+        return comicbookDAO.getComicbook(searchType, searchValue);
     }
 
     public Character getCharacter(String searchType, String searchValue) throws SQLException {
