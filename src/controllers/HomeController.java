@@ -1,36 +1,54 @@
 package controllers;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.ArrayList;
 
-import javax.xml.stream.events.Characters;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.Character;
+import model.Collection;
+import model.Comicbook;
+import model.Entry;
 import model.Hero;
 import model.Instance;
-import model.Character;
-import model.Comicbook;
+import model.Villain;
 
 public class HomeController {
 
     private Instance instance;
     private Stage stage;
+    private ObservableList<Entry> observableEntryList;
+    private ArrayList<Collection> collectionArrayList;
 
     @FXML
-    private Label characterMessageTxt;
+    private ListView<String> collectionHomeListView;
+
+    @FXML
+    private Button addBtn;
+
+    @FXML
+    private TableColumn<Entry, String> colCategory;
+
+    @FXML
+    private TableColumn<Entry, String> colItem;
+
+    @FXML
+    private TableView<Entry> itemTableView;
 
     @FXML
     private Pane objectDisplayPane;
@@ -39,19 +57,16 @@ public class HomeController {
     private TextField searchTxtField;
 
     @FXML
+    private Button newCollectionBtn;
+
+    @FXML
+    private TextField newCollectionTxtField;
+
+    @FXML
     private Font x1;
 
     @FXML
     private Color x2;
-
-    @FXML
-    private Font x3;
-
-    @FXML
-    private Color x4;
-
-    @FXML
-    private ListView<String> itemListView;
 
     public HomeController(Stage stage, Instance instance) {
         this.stage = stage;
@@ -60,44 +75,97 @@ public class HomeController {
 
     public void initialize() throws IOException, SQLException {
 
-        // Load all comicbooks and characters
-        Comicbook[] comicbooks = instance.comicbookDAO.getComicbooks();
-        Character[] characters = instance.characterDAO.getCharacters();
-
-        for (int i = 0; i < comicbooks.length; i++) {
-            itemListView.getItems().add(comicbooks[i].getTitle());
-            if (characters[i] != null) {
-                itemListView.getItems().add(characters[i].getName());
-            }
-            sortItems();
+        // Load all collections
+        collectionArrayList = instance.getCollections();
+        for (int i = 0; i < collectionArrayList.size(); i++) {
+            collectionHomeListView.getItems().add(collectionArrayList.get(i).getName());
         }
 
-        itemListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        colItem.setCellValueFactory(new PropertyValueFactory<>("item"));
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+
+        // change tableview based on collection
+        collectionHomeListView.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    searchTxtField.clear();
+                    objectDisplayPane.getChildren().clear();
+                    if (newValue == null) {
+                        return;
+                    }
+
+                    for (int i = 0; i < collectionArrayList.size(); i++) {
+                        if (collectionArrayList.get(i).getName().equals(newValue)) {
+                            setObservableEntryList(collectionArrayList.get(i).getEntries());
+                            itemTableView.setItems(observableEntryList);
+                        }
+                    }
+
+                });
+
+        // change object displaypane based on selection
+        itemTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // check if comicbook or character
+            objectDisplayPane.getChildren().clear();
+            addBtn.setDisable(false);
             try {
-                if (instance.getComicbook("title", newValue) != null) {
+                if (newValue == null) {
+                    return;
+                } else if (instance.getComicbook("title", newValue.getItem()) != null) {
                     loadComicbookView(
-                            instance.getComicbook("title", itemListView.getSelectionModel().getSelectedItem()));
-                } else if (instance.getCharacter("name", newValue) != null) {
-                    loadCharacterView(instance.getCharacter("name", newValue));
+                            instance.getComicbook("title",
+                                    itemTableView.getSelectionModel().getSelectedItem().getItem()));
+                } else if (instance.getCharacter("name", newValue.getItem()) != null) {
+                    loadCharacterView(instance.getCharacter("name",
+                            itemTableView.getSelectionModel().getSelectedItem().getItem()));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
+        // search items
         searchTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
-            objectDisplayPane.getChildren().clear();
-            itemListView.getItems().clear();
-            for (int i = 0; i < comicbooks.length; i++) {
-                if (comicbooks[i].getTitle().toLowerCase().contains(newValue.toLowerCase())) {
-                    itemListView.getItems().add(comicbooks[i].getTitle());
-                }
-                if (characters[i] != null && characters[i].getName().toLowerCase().contains(newValue.toLowerCase())) {
-                    itemListView.getItems().add(characters[i].getName());
+            itemTableView.setItems(
+                    observableEntryList.filtered(entry -> entry.getItem().toLowerCase().contains(newValue.toLowerCase())
+                            || entry.getCategory().toLowerCase().contains(newValue.toLowerCase())));
+        });
+
+        // add comicbook or character to collection
+        addBtn.setOnAction(e -> {
+            if (itemTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            }
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/views/Collection/CollectionModalView.fxml"));
+                loader.setControllerFactory(param -> {
+                    return new CollectionModalController(instance, itemTableView.getSelectionModel().getSelectedItem());
+                });
+
+                Pane root = loader.load();
+                CollectionModalController controller = loader.getController();
+                controller.showStage(root);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        newCollectionBtn.setOnAction(e -> {
+            // add new collection
+            if (newCollectionTxtField.getText().isEmpty()) {
+                return;
+            }
+            // check if collection already exists
+            for (int i = 0; i < collectionArrayList.size(); i++) {
+                if (collectionArrayList.get(i).getName().equals(newCollectionTxtField.getText())) {
+                    return;
                 }
             }
-            sortItems();
+
+            Collection newCollection = new Collection(newCollectionTxtField.getText(), new Entry[0]);
+            instance.addCollection(newCollection);
+            collectionHomeListView.getItems().add(newCollection.getName());
+            newCollectionTxtField.clear();
         });
     }
 
@@ -122,7 +190,7 @@ public class HomeController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Character/HeroView.fxml"));
                 loader.setControllerFactory(param -> {
-                    return new HeroController(stage, instance, (Hero) character, characterMessageTxt);
+                    return new HeroController(stage, instance, (Hero) character);
                 });
 
                 objectDisplayPane.getChildren().add(loader.load());
@@ -133,7 +201,7 @@ public class HomeController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Character/VillainView.fxml"));
                 loader.setControllerFactory(param -> {
-                    return new VillainController(stage, instance, (model.Villain) character, characterMessageTxt);
+                    return new VillainController(stage, instance, (Villain) character);
                 });
 
                 objectDisplayPane.getChildren().add(loader.load());
@@ -143,16 +211,13 @@ public class HomeController {
         }
     }
 
-    public void sortItems() {
-        String[] items = new String[itemListView.getItems().size()];
-        for (int i = 0; i < itemListView.getItems().size(); i++) {
-            items[i] = itemListView.getItems().get(i);
-        }
-        Arrays.sort(items);
-        itemListView.getItems().clear();
-        for (int i = 0; i < items.length; i++) {
-            itemListView.getItems().add(items[i]);
-        }
+    public void sortEntries() {
+        // sort entry according to item
+        observableEntryList.sort((entry1, entry2) -> entry1.getItem().compareTo(entry2.getItem()));
+    }
+
+    public void setObservableEntryList(Entry[] entryList) {
+        observableEntryList = FXCollections.observableArrayList(entryList);
     }
 
     public void showStage(VBox root) {

@@ -1,0 +1,38 @@
+.nameTxt {
+  -fx-fill: white;
+  -fx-font-size: 20px;
+  -fx-text-alignment: center;
+  -fx-font-weight: bold;
+}
+
+.identityTxt {
+  -fx-fill: white;
+  -fx-font-size: 12px;
+  -fx-text-alignment: center;
+  -fx-font-weight: bold;
+}
+
+.detailHeadersTxt {
+  -fx-fill: white;
+  -fx-border-width: 2px;
+  -fx-font-size: 15px;
+  -fx-font-weight: bold;
+}
+
+.detailsTxt {
+  -fx-fill: white;
+  -fx-border-width: 2px;
+  -fx-font-size: 15px;
+}
+
+
+
+.heroPane {
+  -fx-border-width: 2px;
+  -fx-background-color: #3fce60;
+}
+
+.villainPane {
+  -fx-border-width: 2px;
+  -fx-background-color: #ff0000;
+}

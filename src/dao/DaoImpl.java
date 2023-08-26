@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.sqlite.SQLiteDataSource;
 
@@ -73,7 +74,7 @@ public class DaoImpl implements Dao {
 					for (int i = 0; i < characters.length; i++) {
 						characterArray[i] = getCharacter("name", characters[i]);
 					}
-					
+
 					return new Comicbook(title, authors, publisher, cover, releaseDate,
 							characterArray);
 
@@ -107,7 +108,7 @@ public class DaoImpl implements Dao {
 
 					CharacterFactory characterFactory = new CharacterFactory();
 					Character newChar = characterFactory.newCharacter(name, abilities, universe, firstAppearance,
-							 image, category, identity, villains, allies, teams, nemesis);
+							image, category, identity, villains, allies, teams, nemesis);
 					return newChar;
 
 				}
@@ -122,7 +123,7 @@ public class DaoImpl implements Dao {
 		try (Connection connection = Database.getConnection(COMICBOOK_TABLE_NAME);
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			try (ResultSet rs = stmt.executeQuery()) {
-				Comicbook[] comicbookArray = new Comicbook[17];
+				ArrayList<Comicbook> comicbookArrayList = new ArrayList<Comicbook>();
 				int i = 0;
 				while (rs.next()) {
 					String title = rs.getString("title");
@@ -137,10 +138,11 @@ public class DaoImpl implements Dao {
 						characterArray[j] = getCharacter("name", characters[j]);
 					}
 
-					comicbookArray[i] = new Comicbook(title, authors, publisher, cover, releaseDate,
-							characterArray);
+					comicbookArrayList.add(new Comicbook(title, authors, publisher, cover, releaseDate,
+							characterArray));
 					i++;
 				}
+				Comicbook[] comicbookArray = comicbookArrayList.toArray(new Comicbook[comicbookArrayList.size()]);
 				return comicbookArray;
 			}
 		} catch (SQLException e) {
@@ -151,12 +153,12 @@ public class DaoImpl implements Dao {
 	}
 
 	@Override
-	public Character[] getCharacters(){
+	public Character[] getCharacters() {
 		String sql = "SELECT * FROM " + CHARACTER_TABLE_NAME;
 		try (Connection connection = Database.getConnection(CHARACTER_TABLE_NAME);
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			try (ResultSet rs = stmt.executeQuery()) {
-				Character[] characterArray = new Character[17];
+				ArrayList<Character> characterArrayList = new ArrayList<Character>();
 				int i = 0;
 				while (rs.next()) {
 					String name = rs.getString("name");
@@ -172,11 +174,11 @@ public class DaoImpl implements Dao {
 					String category = rs.getString("category");
 
 					CharacterFactory characterFactory = new CharacterFactory();
-					Character newChar = characterFactory.newCharacter(name, abilities, universe, firstAppearance,
-							 image, category, identity, villains, allies, teams, nemesis);
-					characterArray[i] = newChar;
+					characterArrayList.add(characterFactory.newCharacter(name, abilities, universe, firstAppearance,
+							image, category, identity, villains, allies, teams, nemesis));
 					i++;
 				}
+				Character[] characterArray = characterArrayList.toArray(new Character[characterArrayList.size()]);
 				return characterArray;
 			}
 		} catch (SQLException e) {

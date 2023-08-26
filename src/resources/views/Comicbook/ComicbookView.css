@@ -1,0 +1,29 @@
+.comicTitleTxt {
+  -fx-fill: white;
+  -fx-font-size: 20px;
+  -fx-text-alignment: center;
+  -fx-font-weight: bold;
+}
+
+.comicDetailHeadersTxt {
+  -fx-fill: white;
+  -fx-border-width: 2px;
+  -fx-font-size: 15px;
+  -fx-font-weight: bold;
+}
+
+.comicDetailsTxt {
+  -fx-fill: white;
+  -fx-border-width: 2px;
+  -fx-font-size: 15px;
+}
+
+.comicImageView {
+  -fx-border-color: #f7bf50;
+  -fx-border-width: 2px;
+  -fx-background-color: #000000;
+}
+
+.comicbookPane{
+  -fx-background-color: black;
+}

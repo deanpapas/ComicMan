@@ -2,23 +2,44 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.VillainController">
+<Pane styleClass="villainPane" stylesheets="@CharacterView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.VillainController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="291.0" style="-fx-background-color: grey;">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="605.0" prefWidth="298.0">
          <children>
-            <Pane layoutX="56.0" layoutY="24.0" prefHeight="252.0" prefWidth="180.0" style="-fx-background-color: black;">
+            <Text fx:id="nameTxt" layoutX="33.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nameTxt" text="Name" wrappingWidth="226.0" />
+            <HBox fx:id="comicImageViewHBox" fillHeight="false" layoutX="43.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;" styleClass="comicImageViewHBox">
                <children>
-                  <ImageView fx:id="imageView" fitHeight="252.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: black;" />
+                  <ImageView fx:id="imageView" fitHeight="270.0" fitWidth="207.0" pickOnBounds="true" preserveRatio="true" styleClass="comicImageView" />
                </children>
-            </Pane>
-            <Text fx:id="nameTxt" layoutX="56.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Name" wrappingWidth="181.0" />
-            <Text fx:id="abilitiesTxt" layoutX="55.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Abilities" wrappingWidth="181.0" />
-            <Text fx:id="universeTxt" layoutX="55.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Universe" wrappingWidth="181.0" />
-            <Text fx:id="firstAppearanceTxt" layoutX="55.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="firstAppearance" wrappingWidth="181.0" />
-            <Text fx:id="nemesisTxt" layoutX="55.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Nemesis" wrappingWidth="181.0" />
+            </HBox>
+            <AnchorPane layoutX="34.0" layoutY="335.0" prefHeight="27.0" prefWidth="226.0">
+               <children>
+                  <Text fx:id="universeTxt" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailsTxt" wrappingWidth="226.0" />
+                  <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailHeadersTxt" text="Universe:" wrappingWidth="226.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="35.0" layoutY="392.0" prefHeight="27.0" prefWidth="226.0">
+               <children>
+                  <Text fx:id="firstAppearanceTxt" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailsTxt" wrappingWidth="226.0" />
+                  <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailHeadersTxt" text="First Appearance:" wrappingWidth="226.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="33.0" layoutY="449.0" prefHeight="27.0" prefWidth="226.0">
+               <children>
+                  <Text fx:id="abilitiesTxt" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailsTxt" wrappingWidth="226.0" />
+                  <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailHeadersTxt" text="Abilities" wrappingWidth="226.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="33.0" layoutY="506.0" prefHeight="27.0" prefWidth="226.0">
+               <children>
+                  <Text fx:id="nemesisTxt" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailsTxt" wrappingWidth="226.0" />
+                  <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="detailHeadersTxt" text="Nemesis:" wrappingWidth="226.0" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

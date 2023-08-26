@@ -10,6 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Comicbook;
@@ -21,7 +22,10 @@ public class ComicbookController {
     private Text comicAuthorTxt;
 
     @FXML
-    private Text comicCharacterTxt;
+    private Text comicCharactersTxt;
+
+    @FXML
+    private HBox comicImageViewHBox;
 
     @FXML
     private Text comicPublisherTxt;
@@ -54,11 +58,17 @@ public class ComicbookController {
             coverImageView.setImage(image);
 
             comicTitleTxt.setText(comicbook.getTitle());
-            comicAuthorTxt.setText(String.join(",", comicbook.getAuthors()));
+            comicAuthorTxt.setText(String.join(", ", comicbook.getAuthors()));
             comicPublisherTxt.setText(comicbook.getPublisher());
             comicReleaseDateTxt.setText(comicbook.getReleaseDate());
-            comicCharacterTxt.setText(String.join(",",comicbook.getCharacters()));
+            comicCharactersTxt.setText(String.join(", ", comicbook.getCharacters()));
         }
+
+        coverImageView.fitWidthProperty().bind(comicImageViewHBox.widthProperty());
+        // coverImageView.fitHeightProperty().bind(comicImageViewHBox.heightProperty());
+        coverImageView.setPreserveRatio(true);
+
+        comicImageViewHBox.setAlignment(javafx.geometry.Pos.CENTER);
 
     }
 

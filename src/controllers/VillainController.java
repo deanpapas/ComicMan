@@ -44,11 +44,10 @@ public class VillainController {
     private Label message;
 
 
-    public VillainController(Stage stage, Instance instance, Villain villain, Label message) {
+    public VillainController(Stage stage, Instance instance, Villain villain) {
         this.stage = stage;
         this.instance = instance;
         this.villain = villain;
-        this.message = message;
     }
 
     public void initialize() throws SQLException {
@@ -60,9 +59,9 @@ public class VillainController {
         nameTxt.setText(villain.getName());
         universeTxt.setText(villain.getUniverse());
         firstAppearanceTxt.setText(villain.getFirstAppearance());
-        abilitiesTxt.setText(String.join(",", villain.getAbilities()));
+        abilitiesTxt.setText(String.join(", ", villain.getAbilities()));
         nemesisTxt.setText(villain.getNemesis());
-        message.setText(villain.getCatchPhrase());
+        // message.setText(villain.getCatchPhrase());
 
         
 

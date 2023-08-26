@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Comicbook;
@@ -21,10 +22,13 @@ import model.Villain;
 public class HeroController {
 
     @FXML
+    private Text abilitiesTxt;
+
+    @FXML
     private Text alliesTxt;
 
     @FXML
-    private Text abilitiesTxt;
+    private HBox comicImageViewHBox;
 
     @FXML
     private Text firstAppearanceTxt;
@@ -45,7 +49,7 @@ public class HeroController {
     private Text universeTxt;
 
     @FXML
-    private Text villiansTxt;
+    private Text villainsTxt;
 
     private Stage stage;
 
@@ -56,11 +60,10 @@ public class HeroController {
     private Label message;
 
 
-    public HeroController(Stage stage, Instance instance, Hero hero, Label message) {
+    public HeroController(Stage stage, Instance instance, Hero hero) {
         this.stage = stage;
         this.instance = instance;
         this.hero = hero;
-        this.message = message;
     }
 
     public void initialize() throws SQLException {
@@ -73,11 +76,11 @@ public class HeroController {
         identityTxt.setText(hero.getIdentity());
         universeTxt.setText(hero.getUniverse());
         firstAppearanceTxt.setText(hero.getFirstAppearance());
-        alliesTxt.setText(String.join(",", hero.getAllies()));
-        villiansTxt.setText(String.join(",", hero.getVillains()));
-        teamsTxt.setText(String.join(",", hero.getTeams()));
-        abilitiesTxt.setText(String.join(",", hero.getAbilities()));
-        message.setText(hero.getCatchPhrase());
+        alliesTxt.setText(String.join(", ", hero.getAllies()));
+        villainsTxt.setText(String.join(", ", hero.getVillains()));
+        teamsTxt.setText(String.join(", ", hero.getTeams()));
+        abilitiesTxt.setText(String.join(", ", hero.getAbilities()));
+        // message.setText(hero.getCatchPhrase());
 
     }
 
