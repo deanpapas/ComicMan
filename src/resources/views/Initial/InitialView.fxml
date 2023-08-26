@@ -44,7 +44,7 @@
          <children>
             <ImageView fitHeight="401.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:/c:/Users/deanp/Documents/GitHub/ComicMan/comic-man/src/resources/ComicMan_Logo.jpeg" />
+                  <Image url="@../../ComicMan_Logo.jpeg" />
                </image>
             </ImageView>
          </children>

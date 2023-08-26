@@ -16,6 +16,7 @@ public class InitialController {
     @FXML
     private Button startbtn;
 
+
     public InitialController(Stage stage, Instance instance) {
         this.stage = stage;
         this.instance = instance;
