@@ -45,29 +45,25 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@HomeView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="611.0" prefWidth="902.0">
          <children>
-        <AnchorPane prefHeight="607.0" prefWidth="224.0">
+        <AnchorPane prefHeight="604.0" prefWidth="232.0" styleClass="collectionContainer">
                <children>
-                  <ListView fx:id="collectionHomeListView" prefHeight="565.0" prefWidth="231.0" />
-                  <Button fx:id="newCollectionBtn" layoutX="182.0" layoutY="574.0" mnemonicParsing="false" text="Add" />
-                  <TextField fx:id="newCollectionTxtField" layoutX="12.0" layoutY="574.0" prefHeight="25.0" prefWidth="170.0" />
+                  <ListView fx:id="collectionHomeListView" layoutX="14.0" layoutY="14.0" prefHeight="532.0" prefWidth="218.0" />
+                  <Button fx:id="newCollectionBtn" layoutX="192.0" layoutY="560.0" mnemonicParsing="false" styleClass="btn" text="Add" />
+                  <TextField fx:id="newCollectionTxtField" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="167.0" promptText="Add Collection..." />
                </children>
         </AnchorPane>
       <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="607.0" prefWidth="376.0" styleClass="outerSearchContainer">
                <children>
-                  <TextField fx:id="searchTxtField" layoutX="14.0" layoutY="10.0" prefHeight="25.0" prefWidth="204.0" />
-                  <HBox layoutX="14.0" layoutY="42.0" prefHeight="555.0" prefWidth="348.0">
-                     <children>
-                        <TableView fx:id="itemTableView" prefHeight="555.0" prefWidth="363.0">
-                          <columns>
-                            <TableColumn fx:id="colItem" prefWidth="202.0" />
-                            <TableColumn fx:id="colCategory" prefWidth="135.0" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </HBox>
-                  <Button fx:id="addBtn" layoutX="253.0" layoutY="10.0" mnemonicParsing="false" text="Add to Collection" />
+                  <TextField fx:id="searchTxtField" layoutX="12.0" layoutY="14.0" prefHeight="25.0" prefWidth="224.0" promptText="Filter..." />
+                  <TableView fx:id="itemTableView" layoutX="12.0" layoutY="54.0" prefHeight="532.0" prefWidth="348.0">
+                    <columns>
+                      <TableColumn fx:id="colItem" editable="false" prefWidth="239.0" resizable="false" sortable="false" />
+                      <TableColumn fx:id="colCategory" editable="false" maxWidth="162.0" minWidth="82.0" prefWidth="108.0" resizable="false" sortable="false" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="addBtn" layoutX="247.0" layoutY="13.0" mnemonicParsing="false" styleClass="btn" text="Add to Collection" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -75,7 +71,11 @@
             </AnchorPane>
             <VBox prefHeight="607.0" prefWidth="544.0">
                <children>
-                  <Pane fx:id="objectDisplayPane" maxWidth="298.0" minWidth="298.0" prefHeight="607.0" prefWidth="298.0" styleClass="displayContainer" />
+                  <Pane fx:id="objectDisplayPaneBackground" maxWidth="298.0" minWidth="298.0" prefHeight="607.0" prefWidth="298.0" styleClass="objectDisplayPaneBackground">
+                     <children>
+                        <Pane fx:id="objectDisplayPane" maxWidth="298.0" minWidth="298.0" prefHeight="607.0" prefWidth="298.0" />
+                     </children>
+                  </Pane>
                </children>
             </VBox>
          </children>

@@ -5,19 +5,14 @@ import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Comicbook;
 import model.Hero;
-import model.Instance;
-import model.Villain;
+
 
 public class HeroController {
 
@@ -53,16 +48,10 @@ public class HeroController {
 
     private Stage stage;
 
-    private Instance instance;
-
     private Hero hero;
 
-    private Label message;
-
-
-    public HeroController(Stage stage, Instance instance, Hero hero) {
+    public HeroController(Stage stage, Hero hero) {
         this.stage = stage;
-        this.instance = instance;
         this.hero = hero;
     }
 
@@ -80,7 +69,6 @@ public class HeroController {
         villainsTxt.setText(String.join(", ", hero.getVillains()));
         teamsTxt.setText(String.join(", ", hero.getTeams()));
         abilitiesTxt.setText(String.join(", ", hero.getAbilities()));
-        // message.setText(hero.getCatchPhrase());
 
     }
 

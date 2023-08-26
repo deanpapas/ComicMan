@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -81,12 +82,12 @@ public class HomeController {
             collectionHomeListView.getItems().add(collectionArrayList.get(i).getName());
         }
 
+        // Set tableview
         colItem.setCellValueFactory(new PropertyValueFactory<>("item"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
 
-        // change tableview based on collection
-        collectionHomeListView.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
+        // Change tableview based on current collection
+        collectionHomeListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                     searchTxtField.clear();
                     objectDisplayPane.getChildren().clear();
                     if (newValue == null) {
@@ -99,10 +100,11 @@ public class HomeController {
                             itemTableView.setItems(observableEntryList);
                         }
                     }
+                    sortEntries();
 
                 });
 
-        // change object displaypane based on selection
+        // Change object display pane based on selected item
         itemTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // check if comicbook or character
             objectDisplayPane.getChildren().clear();
@@ -118,19 +120,23 @@ public class HomeController {
                     loadCharacterView(instance.getCharacter("name",
                             itemTableView.getSelectionModel().getSelectedItem().getItem()));
                 }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
-        // search items
+        // Search/Filter tableview
         searchTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (observableEntryList == null) {
+                return;
+            }
             itemTableView.setItems(
                     observableEntryList.filtered(entry -> entry.getItem().toLowerCase().contains(newValue.toLowerCase())
-                            || entry.getCategory().toLowerCase().contains(newValue.toLowerCase())));
+                            || entry.getCategory().toLowerCase().contains(newValue.toLowerCase() )));
         });
 
-        // add comicbook or character to collection
+        // Add current entry to collection
         addBtn.setOnAction(e -> {
             if (itemTableView.getSelectionModel().getSelectedItem() == null) {
                 return;
@@ -139,7 +145,7 @@ public class HomeController {
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/views/Collection/CollectionModalView.fxml"));
                 loader.setControllerFactory(param -> {
-                    return new CollectionModalController(instance, itemTableView.getSelectionModel().getSelectedItem());
+                    return new CollectionModalController(itemTableView.getSelectionModel().getSelectedItem(), collectionArrayList);
                 });
 
                 Pane root = loader.load();
@@ -150,8 +156,8 @@ public class HomeController {
             }
         });
 
+        // Add new collection
         newCollectionBtn.setOnAction(e -> {
-            // add new collection
             if (newCollectionTxtField.getText().isEmpty()) {
                 return;
             }
@@ -174,7 +180,7 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Comicbook/ComicbookView.fxml"));
             loader.setControllerFactory(param -> {
 
-                return new ComicbookController(stage, instance, comicbook);
+                return new ComicbookController(stage, comicbook);
 
             });
 
@@ -190,7 +196,7 @@ public class HomeController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Character/HeroView.fxml"));
                 loader.setControllerFactory(param -> {
-                    return new HeroController(stage, instance, (Hero) character);
+                    return new HeroController(stage, (Hero) character);
                 });
 
                 objectDisplayPane.getChildren().add(loader.load());
@@ -201,7 +207,7 @@ public class HomeController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Character/VillainView.fxml"));
                 loader.setControllerFactory(param -> {
-                    return new VillainController(stage, instance, (Villain) character);
+                    return new VillainController(stage, (Villain) character);
                 });
 
                 objectDisplayPane.getChildren().add(loader.load());
@@ -212,7 +218,6 @@ public class HomeController {
     }
 
     public void sortEntries() {
-        // sort entry according to item
         observableEntryList.sort((entry1, entry2) -> entry1.getItem().compareTo(entry2.getItem()));
     }
 
@@ -226,6 +231,7 @@ public class HomeController {
         stage.setResizable(false);
         stage.setTitle("ComicMan");
         stage.show();
+
     }
 
 }

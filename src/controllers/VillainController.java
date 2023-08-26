@@ -5,17 +5,14 @@ import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Instance;
 import model.Villain;
 
 public class VillainController {
-
 
     @FXML
     private Text abilitiesTxt;
@@ -37,16 +34,10 @@ public class VillainController {
 
     private Stage stage;
 
-    private Instance instance;
-
     private Villain villain;
 
-    private Label message;
-
-
-    public VillainController(Stage stage, Instance instance, Villain villain) {
+    public VillainController(Stage stage, Villain villain) {
         this.stage = stage;
-        this.instance = instance;
         this.villain = villain;
     }
 
@@ -61,9 +52,6 @@ public class VillainController {
         firstAppearanceTxt.setText(villain.getFirstAppearance());
         abilitiesTxt.setText(String.join(", ", villain.getAbilities()));
         nemesisTxt.setText(villain.getNemesis());
-        // message.setText(villain.getCatchPhrase());
-
-        
 
     }
 

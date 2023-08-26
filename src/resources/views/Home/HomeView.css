@@ -1,7 +1,49 @@
-.outerSearchContainer {
-    -fx-background-color: #25d6d6;
+.collectionContainer {
+    -fx-background-color: #212121;
 }
 
-.displayContainer {
-    -fx-background-color: #dd2525;
+.outerSearchContainer {
+    -fx-background-color: #212121;
+}
+
+.objectDisplayPaneBackground {
+    -fx-background-color: #212121;
+}
+
+.table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.table-view *.scroll-bar:horizontal *.increment-arrow, 
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
+.table-view .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+
+.btn {
+    -fx-background-color: #000000;
+    -fx-text-fill: #f7bf50;
+    -fx-border-color: #f7bf50;
+}
+
+.btn:hover {
+    -fx-background-color: #f7bf50;
+    -fx-text-fill: #000000;
+    -fx-border-color: #000000;
+
+
 }

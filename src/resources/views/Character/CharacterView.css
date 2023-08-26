@@ -24,15 +24,3 @@
   -fx-border-width: 2px;
   -fx-font-size: 15px;
 }
-
-
-
-.heroPane {
-  -fx-border-width: 2px;
-  -fx-background-color: #3fce60;
-}
-
-.villainPane {
-  -fx-border-width: 2px;
-  -fx-background-color: #ff0000;
-}

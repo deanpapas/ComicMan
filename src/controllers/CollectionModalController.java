@@ -9,7 +9,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Collection;
 import model.Entry;
-import model.Instance;
 import java.util.ArrayList;
 
 public class CollectionModalController {
@@ -23,23 +22,26 @@ public class CollectionModalController {
     @FXML
     private Button addToCollectionBtn;
 
-    private Instance instance;
     private Entry selectedEntry;
     private ArrayList<Collection> collectionArrayList;
     private Collection selectedCollection;
 
-    public CollectionModalController(Instance instance, Entry selectedEntry) {
-        this.instance = instance;
+    public CollectionModalController(Entry selectedEntry, ArrayList<Collection> collectionArrayList) {
         this.selectedEntry = selectedEntry;
+        this.collectionArrayList = collectionArrayList;
     }
+
+    
 
     public void initialize() {
 
-        // load current collections
-        collectionArrayList = instance.getCollections();
+        addToCollectionBtn.setDisable(true);
+        // Load the collections into the listview
         for (int i = 0; i < collectionArrayList.size(); i++) {
             collectionListView.getItems().add(collectionArrayList.get(i).getName());
         }
+
+        
 
         collectionListView.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() != -1) {
@@ -52,7 +54,7 @@ public class CollectionModalController {
         });
 
         addToCollectionBtn.setOnAction(e -> {
-            // add to collection and check if it already exists
+            // Check if the entry already exists in the collection
             Entry[] entries = selectedCollection.getEntries();
             boolean exists = false;
             for (int i = 0; i < entries.length; i++) {
@@ -75,7 +77,6 @@ public class CollectionModalController {
 
     }
 
-    // New pane to display the modal
     public void showStage(Pane root) {
         Scene scene = new Scene(root);
         Stage stage = new Stage();

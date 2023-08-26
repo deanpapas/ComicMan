@@ -5,8 +5,6 @@ import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -14,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Comicbook;
-import model.Instance;
+
 
 public class ComicbookController {
 
@@ -41,13 +39,11 @@ public class ComicbookController {
 
     private Stage stage;
 
-    private Instance instance;
 
     private Comicbook comicbook;
 
-    public ComicbookController(Stage stage, Instance instance, Comicbook comicbook) {
+    public ComicbookController(Stage stage, Comicbook comicbook) {
         this.stage = stage;
-        this.instance = instance;
         this.comicbook = comicbook;
     }
 
@@ -57,6 +53,8 @@ public class ComicbookController {
             Image image = new Image(file.toURI().toString());
             coverImageView.setImage(image);
 
+
+            // Set Comicbook info
             comicTitleTxt.setText(comicbook.getTitle());
             comicAuthorTxt.setText(String.join(", ", comicbook.getAuthors()));
             comicPublisherTxt.setText(comicbook.getPublisher());
@@ -65,11 +63,8 @@ public class ComicbookController {
         }
 
         coverImageView.fitWidthProperty().bind(comicImageViewHBox.widthProperty());
-        // coverImageView.fitHeightProperty().bind(comicImageViewHBox.heightProperty());
         coverImageView.setPreserveRatio(true);
-
         comicImageViewHBox.setAlignment(javafx.geometry.Pos.CENTER);
-
     }
 
     public void showStage(AnchorPane root) {

@@ -26,8 +26,6 @@ public class Instance {
         }
 
         collectionArrayList.add(new Collection("All", allEntries));
-        Entry[] temp = new Entry[0];
-        collectionArrayList.add(new Collection("Favorites", temp));
     }
 
     public void setup() throws SQLException {

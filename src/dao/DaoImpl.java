@@ -2,7 +2,6 @@ package dao;
 
 import model.Comicbook;
 import factories.CharacterFactory;
-import javafx.scene.Cursor;
 import model.Character;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.sqlite.SQLiteDataSource;
 
 public class DaoImpl implements Dao {
 	private String type;
@@ -124,7 +122,6 @@ public class DaoImpl implements Dao {
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			try (ResultSet rs = stmt.executeQuery()) {
 				ArrayList<Comicbook> comicbookArrayList = new ArrayList<Comicbook>();
-				int i = 0;
 				while (rs.next()) {
 					String title = rs.getString("title");
 					String[] authors = (rs.getString("authors")).split(",");
@@ -134,13 +131,12 @@ public class DaoImpl implements Dao {
 					String[] characters = (rs.getString("characters")).split(",");
 
 					Character[] characterArray = new Character[characters.length];
-					for (int j = 0; j < characters.length; j++) {
-						characterArray[j] = getCharacter("name", characters[j]);
+					for (int i = 0; i < characters.length; i++) {
+						characterArray[i] = getCharacter("name", characters[i]);
 					}
 
 					comicbookArrayList.add(new Comicbook(title, authors, publisher, cover, releaseDate,
 							characterArray));
-					i++;
 				}
 				Comicbook[] comicbookArray = comicbookArrayList.toArray(new Comicbook[comicbookArrayList.size()]);
 				return comicbookArray;
@@ -159,8 +155,7 @@ public class DaoImpl implements Dao {
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			try (ResultSet rs = stmt.executeQuery()) {
 				ArrayList<Character> characterArrayList = new ArrayList<Character>();
-				int i = 0;
-				while (rs.next()) {
+					while (rs.next()) {
 					String name = rs.getString("name");
 					String[] abilities = (rs.getString("abilities")).split(",");
 					String universe = rs.getString("universe");
@@ -176,7 +171,6 @@ public class DaoImpl implements Dao {
 					CharacterFactory characterFactory = new CharacterFactory();
 					characterArrayList.add(characterFactory.newCharacter(name, abilities, universe, firstAppearance,
 							image, category, identity, villains, allies, teams, nemesis));
-					i++;
 				}
 				Character[] characterArray = characterArrayList.toArray(new Character[characterArrayList.size()]);
 				return characterArray;
