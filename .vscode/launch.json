@@ -6,21 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "FXAppLauncher",
-            "request": "launch",
-            "mainClass": "main.FXAppLauncher",
-            "projectName": "comic-man_beb1d401"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "vmArgs": "--module-path javafx-sdk-20.0.2/lib --add-modules javafx.controls,javafx.fxml",
-            "mainClass": "main.Main",
-            "projectName": "ComicMan_9885b413"
-        },
-        {
-            "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "vmArgs": "--module-path javafx-sdk-20.0.2/lib --add-modules javafx.controls,javafx.fxml",
