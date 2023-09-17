@@ -21,6 +21,8 @@ public class DaoImpl implements Dao {
 	}
 
 	// Create Database
+	// Creates the database if it does not exist
+	// Creates comicbook & character tables if they do not exist
 	@Override
 	public void setup() throws SQLException {
 		if (type.equals("comicbook")) {
@@ -51,7 +53,8 @@ public class DaoImpl implements Dao {
 
 	}
 
-	// Get User
+	// Get Comicbook
+	// Returns a comicbook object from the database
 	@Override
 	public Comicbook getComicbook(String searchType, String searchValue) throws SQLException {
 		String sql = "SELECT * FROM " + COMICBOOK_TABLE_NAME + " WHERE " + searchType + " = ?";
@@ -82,6 +85,8 @@ public class DaoImpl implements Dao {
 		}
 	}
 
+	// Get Character
+	// Returns a character object from the database
 	@Override
 	public Character getCharacter(String searchType, String searchValue) throws SQLException {
 
@@ -114,6 +119,9 @@ public class DaoImpl implements Dao {
 			}
 		}
 	}
+
+	// Get Comicbooks
+	// Returns an array of comicbook objects from the database
 
 	@Override
 	public Comicbook[] getComicbooks() {
@@ -148,6 +156,8 @@ public class DaoImpl implements Dao {
 
 	}
 
+	// Get Characters
+	// Returns an array of character objects from the database
 	@Override
 	public Character[] getCharacters() {
 		String sql = "SELECT * FROM " + CHARACTER_TABLE_NAME;

@@ -15,7 +15,7 @@ import model.Instance;
 
 
 /*
- * The main class used to access the Smart Canvas application
+ * The main class used to access the Comic Man application
  */
 
 public class Main extends Application {

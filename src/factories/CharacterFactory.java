@@ -4,6 +4,12 @@ import model.Character;
 import model.Hero;
 import model.Villain;
 
+/**
+ * CharacterFactory
+ * Creates a new character object
+ * Returns the character object
+ */
+
 public class CharacterFactory {
 
     public Character newCharacter(String name, String[] abilities,

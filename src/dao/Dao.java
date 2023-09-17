@@ -5,6 +5,10 @@ import model.Character;
 import model.Comicbook;
 
 //Data Access Object
+
+//Defines the methods that will be used to access the database
+//Helps to separate the business logic from the data access logic
+
 public interface Dao {
 	void setup() throws SQLException;
 	Comicbook[] getComicbooks() throws SQLException;
